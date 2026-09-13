@@ -8,6 +8,13 @@ A smart classroom occupancy monitoring system using an ESP32, two IR sensors, Th
 > **Dashboard:** HTML, CSS and JavaScript
 
 ---
+## 🚀 Live Dashboard
+
+Access the live Smart Classroom Monitoring Dashboard:
+
+👉 **[Open Live Dashboard](https://shaikmuzahidbasha-art.github.io/smart-classroom-monitor/)**
+
+The dashboard displays real-time classroom occupancy data collected from the ESP32 and IR sensors through ThingSpeak Cloud.
 
 ## 1. Project Overview
 
