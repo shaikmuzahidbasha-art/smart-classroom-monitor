@@ -1,0 +1,65 @@
+# ==============================
+# Smart Classroom Monitoring
+# ==============================
+
+# ------------------------------
+# Credentials / Secrets
+# ------------------------------
+.env
+.env.*
+*.env
+
+config.h
+secrets.h
+credentials.h
+secrets.json
+config.json
+
+# ------------------------------
+# Arduino / ESP32 Build Files
+# ------------------------------
+*.hex
+*.elf
+*.bin
+*.eep
+*.map
+
+build/
+build-*/
+out/
+
+# Compiled object/archive files
+*.o
+*.a
+
+# ------------------------------
+# Logs / Temporary Files
+# ------------------------------
+*.log
+*.tmp
+*.temp
+*.cache
+*.bak
+*.swp
+*.swo
+*~
+
+# ------------------------------
+# Operating System Files
+# ------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+ehthumbs_vista.db
+
+# ------------------------------
+# IDE / Editor Files
+# ------------------------------
+.vscode/
+.idea/
+
+# ------------------------------
+# Backup / Temporary Office Files
+# ------------------------------
+~$*
