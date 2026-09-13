@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Smart Classroom Monitoring Dashboard</title>
+<style>
+:root{
+  --bg:#eef4fb; --navy:#08285a; --muted:#55729b; --white:#fff;
+  --blue:#1389f7; --green:#0ab65a; --red:#ef2635; --purple:#7040e8;
+  --gold:#f4a51c; --border:#dbe6f3;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:18px 3.2vw 14px; min-height:100vh;
+  font-family:Inter,Segoe UI,Arial,sans-serif; color:var(--navy);
+  background:linear-gradient(135deg,#f5f9ff 0%,#edf3fa 55%,#eaf2fb 100%);
+}
+.topbar{
+  min-height:78px; background:rgba(255,255,255,.92);
+  border:1px solid #d9e6f5; border-radius:25px;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 20px 14px 25px; box-shadow:0 10px 28px rgba(35,72,116,.08);
+  margin-bottom:24px;
+}
+.brand{display:flex;align-items:center;gap:13px}
+.live-dot{width:13px;height:13px;border-radius:50%;background:#0bb45a;box-shadow:0 0 0 5px rgba(11,180,90,.10)}
+.live-title{font-weight:800;color:#09a852;font-size:18px;letter-spacing:.3px}
+.subtitle{font-size:14px;color:#153b70;margin-top:4px}
+.cloud-info{display:flex;align-items:center;gap:14px;font-size:15px;color:#214573}
+.cloud-icon{font-size:27px}.refresh{
+  border:0;border-radius:15px;width:50px;height:50px;color:white;
+  background:linear-gradient(145deg,#2e91f6,#2377e8);font-size:25px;
+  cursor:pointer;box-shadow:0 7px 16px rgba(27,117,235,.25)
+}
+.refresh:active{transform:scale(.97)}
+.grid{
+  display:grid; grid-template-columns:1.15fr .94fr .94fr; gap:20px;
+}
+.card{
+  border:1px solid var(--border); border-radius:25px; padding:27px 28px;
+  background:rgba(255,255,255,.91); box-shadow:0 12px 28px rgba(44,77,117,.08);
+  overflow:hidden;
+}
+.present{background:linear-gradient(145deg,#f9fcff,#e8f3ff)}
+.entered{background:linear-gradient(145deg,#fbfffd,#e6faef)}
+.exited{background:linear-gradient(145deg,#fffdfd,#ffebef)}
+.capacity{background:linear-gradient(145deg,#fcfaff,#f1ecff)}
+.update{background:linear-gradient(145deg,#fffdf8,#fff5df)}
+.heading{display:flex;gap:18px;align-items:center}
+.icon{
+  width:88px;height:88px;border-radius:50%;display:grid;place-items:center;
+  font-size:43px;flex:0 0 auto
+}
+.blue-icon{background:#9bd3ff}.green-icon{background:#0ab65a;color:#fff}
+.red-icon{background:#ef2635;color:#fff}.purple-icon{background:#c9b8ff}
+.gold-icon{background:#ffd97b}
+.label{font-size:17px;font-weight:850;letter-spacing:.8px}
+.desc{color:#3d6190;font-size:16px;line-height:1.55;margin-top:5px}
+.present-main{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-top:15px}
+.big{font-size:100px;line-height:.9;font-weight:900;letter-spacing:-4px}
+.ring{
+  width:180px;height:180px;border-radius:50%;display:grid;place-items:center;
+  background:conic-gradient(var(--blue) var(--pct,0%),#d7e3f0 0);
+  position:relative;flex:0 0 auto
+}
+.ring:after{content:"";position:absolute;inset:14px;border-radius:50%;background:#f3f8ff}
+.ring-inner{position:relative;z-index:1;text-align:center}
+.ring-pct{font-size:29px;font-weight:900}.ring-label{font-size:15px;font-weight:700;color:#45658f}
+.status{
+  display:inline-flex;align-items:center;gap:10px;padding:8px 16px;border-radius:20px;
+  background:#baf4d9;color:#08703a;font-weight:850;font-size:17px;margin-top:18px
+}
+.status-dot{width:13px;height:13px;border-radius:50%;background:#0aad58}
+.progress{height:16px;background:#dce5ef;border-radius:99px;margin-top:21px;overflow:hidden}
+.progress-fill{height:100%;width:0;background:linear-gradient(90deg,#0f83f4,#19b9d8);border-radius:99px;transition:width .5s}
+.note{color:#52719a;font-size:15px;margin-top:9px}
+.metric-row{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-top:18px}
+.metric{font-size:92px;line-height:.9;font-weight:900;letter-spacing:-4px}
+.metric-box{
+  min-width:150px;border:1px solid rgba(0,160,80,.18);border-radius:22px;
+  padding:15px 20px;text-align:center;background:rgba(255,255,255,.35)
+}
+.exited .metric-box{border-color:rgba(230,30,50,.18)}
+.metric-box .small{font-size:14px;font-weight:800;margin-bottom:5px}
+.metric-box .plus{font-size:26px;font-weight:900}
+.direction{
+  margin-top:22px;border:1px solid rgba(0,160,80,.18);border-radius:20px;
+  padding:14px 20px;display:flex;align-items:center;gap:17px;background:rgba(255,255,255,.28)
+}
+.exited .direction{border-color:rgba(230,30,50,.18)}
+.walk{font-size:39px}.direction .dlabel{font-size:14px;font-weight:850;color:#567394}
+.direction .dvalue{font-size:27px;font-weight:900;margin-top:3px}
+.direction .dsub{font-size:14px;color:#53739b;margin-top:3px}
+.bottom{
+  display:grid;grid-template-columns:1.02fr 1fr;gap:20px;margin-top:20px
+}
+.capacity .capacity-number{font-size:83px;font-weight:900;letter-spacing:-3px;margin-top:18px}
+.seats{font-size:43px;font-weight:850;letter-spacing:-1px}
+.range-wrap{margin-top:23px}
+input[type=range]{width:100%;accent-color:#7040e8;height:7px;cursor:pointer}
+.range-labels{display:flex;justify-content:space-between;font-size:14px;margin-top:7px}
+.update-main{display:flex;align-items:flex-start;gap:20px}
+.time{font-size:58px;font-weight:900;letter-spacing:-2px;margin-top:8px;color:#7d3508}
+.age{font-size:15px;color:#55739a;margin-top:2px}
+.mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:18px}
+.mini{
+  border-radius:20px;padding:14px 18px;background:rgba(255,255,255,.45);
+  border:1px solid #cfead7
+}
+.mini.red{border-color:#ffd0d5}
+.mini-title{font-weight:850;font-size:14px}
+.mini-value{font-size:34px;font-weight:900;margin-top:3px}
+.mini-sub{font-size:13px;color:#55739a}
+.footer{
+  margin-top:14px;padding:9px 8px;display:flex;justify-content:space-between;
+  align-items:center;color:#365b88;font-size:14px
+}
+.footer-right{display:flex;gap:23px}
+.error{display:none;margin:15px 0 0;padding:11px 15px;background:#fff0f0;border:1px solid #ffcaca;color:#a51c1c;border-radius:12px}
+@media(max-width:1000px){
+  .grid,.bottom{grid-template-columns:1fr}.topbar{gap:15px;align-items:flex-start}
+  .cloud-info{font-size:13px}.present-main{justify-content:flex-start}.ring{width:150px;height:150px}
+}
+@media(max-width:650px){
+  body{padding:10px}.topbar{flex-direction:column}.cloud-info{width:100%;justify-content:space-between}
+  .big,.metric{font-size:70px}.time{font-size:42px}.icon{width:68px;height:68px;font-size:32px}
+  .metric-row{align-items:flex-start;flex-direction:column}.metric-box{width:100%}
+}
+
+/* Over-capacity alert */
+.capacity-alert-overlay{
+  position:fixed; inset:0; z-index:99999;
+  display:none; align-items:center; justify-content:center;
+  padding:20px; background:rgba(7,24,50,.62);
+  backdrop-filter:blur(5px);
+}
+.capacity-alert-overlay.show{display:flex}
+.capacity-alert{
+  width:min(500px,100%); background:#fff; border-radius:26px;
+  padding:30px; text-align:center; border-top:8px solid #ef233c;
+  box-shadow:0 28px 80px rgba(0,0,0,.3);
+  animation:capacityAlertIn .2s ease-out;
+}
+.capacity-alert .alert-icon{
+  width:74px;height:74px;margin:0 auto 15px;border-radius:50%;
+  display:grid;place-items:center;background:#ffe4e8;color:#d90429;
+  font-size:40px;font-weight:900;
+}
+.capacity-alert h2{margin:0 0 12px;color:#8d1024;font-size:25px}
+.capacity-alert p{margin:8px 0;color:#334e68;font-size:16px}
+.capacity-alert .alert-number{font-size:44px;font-weight:900;color:#0b2e63;margin:12px 0}
+.capacity-alert button{
+  margin-top:18px;border:0;border-radius:13px;padding:12px 30px;
+  background:#d90429;color:#fff;font-size:16px;font-weight:800;cursor:pointer;
+}
+.capacity-alert button:hover{filter:brightness(.92)}
+@keyframes capacityAlertIn{
+  from{opacity:0;transform:scale(.94) translateY(8px)}
+  to{opacity:1;transform:scale(1) translateY(0)}
+}
+/* Clear over-capacity state */
+.status.over-capacity { background:#ffe5e8 !important; color:#b00020 !important; }
+
+
+/* Theme selector */
+.theme-control{
+  position:relative;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.theme-select{
+  appearance:none;
+  border:1px solid #d5e2f0;
+  background:#fff;
+  color:#163c70;
+  border-radius:13px;
+  padding:10px 34px 10px 13px;
+  font-size:14px;
+  font-weight:750;
+  cursor:pointer;
+  outline:none;
+}
+.theme-select:focus{box-shadow:0 0 0 3px rgba(19,137,247,.14)}
+
+body.theme-dark{
+  --bg:#0b1425; --navy:#eaf3ff; --muted:#9db4d4; --white:#101c31;
+  --border:#253957;
+  background:linear-gradient(135deg,#091222,#0e1b30,#111f35);
+  color:#eaf3ff;
+}
+body.theme-dark .topbar,
+body.theme-dark .card{
+  background:rgba(16,28,49,.94);
+  border-color:#263b59;
+  box-shadow:0 12px 30px rgba(0,0,0,.22);
+}
+body.theme-dark .subtitle,
+body.theme-dark .desc,
+body.theme-dark .note,
+body.theme-dark .age,
+body.theme-dark .mini-sub,
+body.theme-dark .direction .dlabel,
+body.theme-dark .cloud-info{color:#a9bed9}
+body.theme-dark .theme-select{background:#14243c;color:#eaf3ff;border-color:#304a6d}
+body.theme-dark .present{background:linear-gradient(145deg,#132a45,#102238)}
+body.theme-dark .entered{background:linear-gradient(145deg,#102e28,#10251f)}
+body.theme-dark .exited{background:linear-gradient(145deg,#321721,#25131b)}
+body.theme-dark .capacity{background:linear-gradient(145deg,#282044,#1d1933)}
+body.theme-dark .update{background:linear-gradient(145deg,#392b16,#2a2113)}
+body.theme-dark .progress{background:#26384f}
+body.theme-dark .ring:after{background:#13243b}
+body.theme-dark .metric-box,
+body.theme-dark .direction,
+body.theme-dark .mini{background:rgba(255,255,255,.035)}
+
+body.theme-ocean{
+  --navy:#063a55; --border:#c6e5ef;
+  background:linear-gradient(135deg,#e8fbff,#eaf7ff,#edf5ff);
+}
+body.theme-ocean .topbar,
+body.theme-ocean .card{box-shadow:0 12px 30px rgba(0,112,145,.10)}
+body.theme-ocean .present{background:linear-gradient(145deg,#f6feff,#dff7ff)}
+body.theme-ocean .entered{background:linear-gradient(145deg,#f5fffd,#dcfaf5)}
+body.theme-ocean .exited{background:linear-gradient(145deg,#fffafd,#ffe8f2)}
+body.theme-ocean .capacity{background:linear-gradient(145deg,#fafaff,#e9f0ff)}
+body.theme-ocean .update{background:linear-gradient(145deg,#fffefa,#fff1d7)}
+
+body.theme-sunset{
+  --navy:#4a2940; --border:#ead7d2;
+  background:linear-gradient(135deg,#fff7ef,#fff1f2,#f5f0ff);
+}
+body.theme-sunset .topbar,
+body.theme-sunset .card{box-shadow:0 12px 30px rgba(116,68,76,.10)}
+body.theme-sunset .present{background:linear-gradient(145deg,#fffaf5,#fff0dc)}
+body.theme-sunset .entered{background:linear-gradient(145deg,#fbfff9,#e9f8df)}
+body.theme-sunset .exited{background:linear-gradient(145deg,#fff8fa,#ffe1e9)}
+body.theme-sunset .capacity{background:linear-gradient(145deg,#fffaff,#eee3ff)}
+body.theme-sunset .update{background:linear-gradient(145deg,#fffdf8,#ffe8c9)}
+
+body.theme-neon{
+  --navy:#eafcff; --border:#23455a;
+  background:#07121c;
+}
+body.theme-neon .topbar,
+body.theme-neon .card{
+  background:#0b1b29;
+  border-color:#1f4053;
+  box-shadow:0 0 22px rgba(0,220,255,.07);
+}
+body.theme-neon .subtitle,
+body.theme-neon .desc,
+body.theme-neon .note,
+body.theme-neon .age,
+body.theme-neon .mini-sub,
+body.theme-neon .direction .dlabel,
+body.theme-neon .cloud-info{color:#9ac7d8}
+body.theme-neon .theme-select{background:#102636;color:#eafcff;border-color:#2c566d}
+body.theme-neon .present{background:#0b2330}
+body.theme-neon .entered{background:#0b2921}
+body.theme-neon .exited{background:#30141e}
+body.theme-neon .capacity{background:#211735}
+body.theme-neon .update{background:#302312}
+body.theme-neon .progress{background:#183344}
+body.theme-neon .ring:after{background:#0b1b29}
+
+@media(max-width:1000px){
+  .theme-control{width:100%;justify-content:flex-end}
+}
+
+</style>
+</head>
+<body>
+
+<div id="capacityAlertOverlay" class="capacity-alert-overlay" role="alertdialog" aria-modal="true" aria-labelledby="capacityAlertTitle">
+  <div class="capacity-alert">
+    <div class="alert-icon">!</div>
+    <h2 id="capacityAlertTitle">CLASSROOM CAPACITY EXCEEDED</h2>
+    <div id="capacityAlertNumber" class="alert-number">51 / 50</div>
+    <p id="capacityAlertMessage">The classroom is over capacity by 1 student.</p>
+    <p>Please take necessary action.</p>
+    <button id="dismissCapacityAlert" type="button">Dismiss</button>
+  </div>
+</div>
+
+
+<header class="topbar">
+  <div class="brand">
+    <span class="live-dot"></span>
+    <div>
+      <div class="live-title">LIVE · THINGSPEAK CLOUD</div>
+      <div class="subtitle">Real-time classroom occupancy monitoring</div>
+    </div>
+  </div>
+  <div class="cloud-info">
+    <span class="cloud-icon">☁</span>
+    <span>Auto refresh: 15s · Channel <b>3491159</b> · Fields 1, 2, 3</span>
+    <div class="theme-control">
+      <select id="themeSelect" class="theme-select" title="Choose dashboard theme" aria-label="Choose dashboard theme">
+        <option value="default">☀️ Classic</option>
+        <option value="ocean">🌊 Ocean</option>
+        <option value="sunset">🌅 Sunset</option>
+        <option value="dark">🌙 Dark</option>
+        <option value="neon">⚡ Neon</option>
+      </select>
+    </div>
+    <button class="refresh" id="refresh" title="Refresh now">↻</button>
+  </div>
+</header>
+
+<main>
+  <section class="grid">
+
+    <article class="card present">
+      <div class="heading">
+        <div class="icon blue-icon">👥</div>
+        <div>
+          <div class="label">PRESENT INSIDE</div>
+          <div class="desc">Students currently inside the classroom</div>
+        </div>
+      </div>
+      <div class="present-main">
+        <div>
+          <div class="big" id="count">--</div>
+          <div class="status"><span class="status-dot"></span><span id="status">LOADING...</span></div>
+        </div>
+        <div class="ring" id="ring" style="--pct:0%">
+          <div class="ring-inner">
+            <div class="ring-pct" id="pct">0%</div>
+            <div class="ring-label">OCCUPIED</div>
+          </div>
+        </div>
+      </div>
+      <div class="progress"><div class="progress-fill" id="progress"></div></div>
+      <div class="note">Occupancy percentage based on selected capacity</div>
+    </article>
+
+    <article class="card entered">
+      <div class="heading">
+        <div class="icon green-icon">→</div>
+        <div>
+          <div class="label">TOTAL ENTERED</div>
+          <div class="desc">Students detected entering the classroom</div>
+        </div>
+      </div>
+      <div class="metric-row">
+        <div class="metric" id="entered">--</div>
+        <div class="metric-box">
+          <div class="small">TOTAL ENTRIES</div>
+          <div class="plus" id="enteredPlus">+--</div>
+        </div>
+      </div>
+      <div class="direction">
+        <div class="walk">🚶</div>
+        <div>
+          <div class="dlabel">DIRECTION</div>
+          <div class="dvalue">IR1 → IR2</div>
+          <div class="dsub">Entry sequence</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="card exited">
+      <div class="heading">
+        <div class="icon red-icon">←</div>
+        <div>
+          <div class="label">TOTAL EXITED</div>
+          <div class="desc">Students detected leaving the classroom</div>
+        </div>
+      </div>
+      <div class="metric-row">
+        <div class="metric" id="exited">--</div>
+        <div class="metric-box">
+          <div class="small">TOTAL EXITS</div>
+          <div class="plus" id="exitedPlus">+--</div>
+        </div>
+      </div>
+      <div class="direction">
+        <div class="walk">🚶</div>
+        <div>
+          <div class="dlabel">DIRECTION</div>
+          <div class="dvalue">IR2 → IR1</div>
+          <div class="dsub">Exit sequence</div>
+        </div>
+      </div>
+    </article>
+
+  </section>
+
+  <section class="bottom">
+
+    <article class="card capacity">
+      <div class="heading">
+        <div class="icon purple-icon">🪑</div>
+        <div>
+          <div class="label">CLASSROOM CAPACITY</div>
+          <div class="desc">Adjust for your actual classroom capacity</div>
+        </div>
+      </div>
+      <div><span class="capacity-number" id="capValue">64</span> <span class="seats">seats</span></div>
+      <div class="range-wrap">
+        <input id="capacity" type="range" min="10" max="200" value="64">
+        <div class="range-labels"><span>10</span><span>200</span></div>
+      </div>
+    </article>
+
+    <article class="card update">
+      <div class="update-main">
+        <div class="icon gold-icon">◷</div>
+        <div>
+          <div class="label">LAST CLOUD UPDATE</div>
+          <div class="desc">Last data received from ThingSpeak</div>
+          <div class="time" id="lastTime">--:--:--</div>
+          <div class="age" id="age">Waiting for data...</div>
+        </div>
+      </div>
+      <div class="mini-grid">
+        <div class="mini">
+          <div class="mini-title">↑ &nbsp; MAXIMUM</div>
+          <div class="mini-value" id="max">--</div>
+          <div class="mini-sub">Highest count in recent readings</div>
+        </div>
+        <div class="mini red">
+          <div class="mini-title">↓ &nbsp; MINIMUM</div>
+          <div class="mini-value" id="min">--</div>
+          <div class="mini-sub">Lowest count in recent readings</div>
+        </div>
+      </div>
+    </article>
+
+  </section>
+
+  <div class="error" id="error">
+    Unable to read ThingSpeak right now. Check your internet connection and channel visibility.
+  </div>
+</main>
+
+<footer class="footer">
+  <div>🎓 &nbsp;Smart Classroom Monitoring System &nbsp; | &nbsp; Powered by ThingSpeak &amp; ESP32</div>
+  <div class="footer-right">
+    <span>● Connected to Cloud</span>
+    <span>▮▮ Live Data</span>
+  </div>
+</footer>
+
+<script>
+const API = "https://api.thingspeak.com/channels/3491159/feeds.json?results=30";
+let data = [];
+let capacity = Number(localStorage.getItem("classroomCapacity") || 64);
+
+const $ = id => document.getElementById(id);
+
+function setCapacity(v){
+  capacity = Number(v);
+  localStorage.setItem("classroomCapacity", capacity);
+  $("capacity").value = capacity;
+  $("capValue").textContent = capacity;
+  updateOccupancy();
+}
+$("capacity").addEventListener("input", e => setCapacity(e.target.value));
+setCapacity(capacity);
+
+function formatTime(iso){
+  if(!iso) return "--:--:--";
+  return new Date(iso).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit",second:"2-digit"});
+}
+function ageText(iso){
+  if(!iso) return "Waiting for data...";
+  const sec = Math.max(0, Math.floor((Date.now()-new Date(iso).getTime())/1000));
+  if(sec < 60) return sec + "s ago";
+  const min = Math.floor(sec/60);
+  return min + "m ago";
+}
+function updateOccupancy(){
+  const v = Number($("count").textContent) || 0;
+  const pct = Math.min(100, Math.max(0, capacity ? v/capacity*100 : 0));
+  $("pct").textContent = pct.toFixed(1) + "%";
+  $("ring").style.setProperty("--pct", pct + "%");
+  $("progress").style.width = pct + "%";
+  $("status").textContent = v > capacity ? "OVER CAPACITY" : (v > 0 ? "CLASSROOM OCCUPIED" : "CLASSROOM EMPTY");
+}
+
+async function loadData(){
+  try{
+    const r = await fetch(API + "&_=" + Date.now(), {cache:"no-store"});
+    if(!r.ok) throw new Error("HTTP " + r.status);
+    const j = await r.json();
+    data = (j.feeds || []).filter(x => x.field1 !== null).map(x => ({
+      present: Math.max(0, Math.round(Number(x.field1 || 0))),
+      entered: Math.max(0, Math.round(Number(x.field2 || 0))),
+      exited: Math.max(0, Math.round(Number(x.field3 || 0))),
+      time: x.created_at
+    }));
+    if(!data.length) throw new Error("No readings");
+    const q = data[data.length-1];
+
+    $("count").textContent = q.present;
+    $("entered").textContent = q.entered;
+    $("enteredPlus").textContent = "+" + q.entered;
+    $("exited").textContent = q.exited;
+    $("exitedPlus").textContent = "+" + q.exited;
+    $("status").textContent = q.present > 0 ? "CLASSROOM OCCUPIED" : "CLASSROOM EMPTY";
+    $("lastTime").textContent = formatTime(q.time);
+    $("age").textContent = ageText(q.time);
+
+    const values = data.map(x => x.present);
+    $("max").textContent = Math.max(...values);
+    $("min").textContent = Math.min(...values);
+    $("error").style.display = "none";
+    updateOccupancy();
+  }catch(e){
+    console.error(e);
+    $("error").style.display = "block";
+  }
+}
+let alertDismissedFor = null;
+
+function showCapacityAlert(present, cap) {
+  const overlay = $("capacityAlertOverlay");
+  const alertNumber = $("capacityAlertNumber");
+  const alertMessage = $("capacityAlertMessage");
+  if (!overlay) return;
+
+  const key = present + "/" + cap;
+  // Do not repeatedly reopen the same alert after the user dismisses it.
+  if (alertDismissedFor === key) return;
+
+  const excess = present - cap;
+  alertNumber.textContent = `${present} / ${cap}`;
+  alertMessage.textContent =
+    `The classroom is over capacity by ${excess} student${excess === 1 ? "" : "s"}.`;
+  overlay.classList.add("show");
+}
+
+function dismissCapacityAlert() {
+  const present = Number($("count").textContent) || 0;
+  const cap = Number($("capacity").value) || capacity;
+  alertDismissedFor = present + "/" + cap;
+  $("capacityAlertOverlay")?.classList.remove("show");
+}
+
+$("dismissCapacityAlert")?.addEventListener("click", dismissCapacityAlert);
+
+$("capacity").addEventListener("input", () => {
+  alertDismissedFor = null;
+  updateOccupancy();
+});
+
+$("refresh").addEventListener("click", loadData);
+loadData();
+setInterval(loadData, 15000);
+setInterval(() => {
+  if(data.length) $("age").textContent = ageText(data[data.length-1].time);
+}, 1000);
+
+// Dashboard themes
+(function(){
+  const select = document.getElementById("themeSelect");
+  const themes = ["default","ocean","sunset","dark","neon"];
+
+  function applyTheme(theme){
+    if(!themes.includes(theme)) theme = "default";
+    document.body.classList.remove("theme-ocean","theme-sunset","theme-dark","theme-neon");
+    if(theme !== "default") document.body.classList.add("theme-" + theme);
+    if(select) select.value = theme;
+    localStorage.setItem("dashboardTheme", theme);
+  }
+
+  const saved = localStorage.getItem("dashboardTheme") || "default";
+  applyTheme(saved);
+
+  select?.addEventListener("change", function(){
+    applyTheme(this.value);
+  });
+})();
+
+</script>
+
+
+
+
+<script id="capacity-alert-script">
+(function(){
+  let dismissedKey = null;
+
+  const overlay = document.getElementById("capacityAlertOverlay");
+  const dismiss = document.getElementById("dismissCapacityAlert");
+
+  function present(){
+    const n = Number(document.getElementById("count")?.textContent);
+    return Number.isFinite(n) ? n : null;
+  }
+
+  function cap(){
+    const n = Number(document.getElementById("capacity")?.value);
+    return Number.isFinite(n) ? n : null;
+  }
+
+  function check(){
+    const p = present(), c = cap();
+    if (!overlay || p === null || c === null) return;
+
+    if (p > c) {
+      const key = p + "|" + c;
+      document.getElementById("capacityAlertNumber").textContent = p + " / " + c;
+      const extra = p - c;
+      document.getElementById("capacityAlertMessage").textContent =
+        "The classroom is over capacity by " + extra +
+        " student" + (extra === 1 ? "" : "s") + ".";
+
+      if (dismissedKey !== key) overlay.classList.add("show");
+    } else {
+      overlay.classList.remove("show");
+      dismissedKey = null;
+    }
+  }
+
+  dismiss?.addEventListener("click", function(){
+    const p = present(), c = cap();
+    dismissedKey = p + "|" + c;
+    overlay.classList.remove("show");
+  });
+
+  // Any capacity change is a new condition, so allow a fresh alert.
+  document.getElementById("capacity")?.addEventListener("input", function(){
+    dismissedKey = null;
+    check();
+  });
+
+  // Watch the actual Present Inside value. This works whether the value
+  // changes through ThingSpeak refresh or manually during testing.
+  let last = null;
+  setInterval(function(){
+    const p = present(), c = cap();
+    const state = p + "|" + c;
+    if (state !== last) {
+      last = state;
+      check();
+    }
+  }, 250);
+
+  window.addEventListener("load", check);
+})();
+</script>
+
+</body>
+</html>
