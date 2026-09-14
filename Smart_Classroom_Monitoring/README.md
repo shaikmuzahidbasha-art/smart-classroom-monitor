@@ -414,11 +414,12 @@ Total Exited
 ```
 
 These values survive restart and power loss.
+![Hardware Setup](images/hardware/hardware_setup_top.png)
 
 ### ThingSpeak Cloud
 
 Stores uploaded cloud readings.
-
+![ThingSpeak Cloud](images/screenshots/thingspeak_cloud/thingspeak_channel.png)
 ```text
 ESP32 → Wi-Fi → ThingSpeak
 ```
@@ -516,7 +517,7 @@ The web dashboard is located at:
 ```text
 code/Web_Dashboard/index.html
 ```
-
+![Smart Classroom Dashboard](images/screenshots/web_dashboard/dashboard_classic_theme.png)
 The dashboard provides a visual representation of the classroom monitoring information.
 
 The dashboard retrieves data from the ThingSpeak channel and uses the received values to update the displayed information.
@@ -1065,6 +1066,13 @@ The repository contains:
 - Project documentation
 
 ---
+## 👥 Team Members
+
+| Team Member |
+|---|
+| SHAIK MUZAHID BASHA |
+| SUDHARSAN S |
+| RAJKUMAR M P |
 
 ## License
 
