@@ -520,7 +520,7 @@ This separates the physical sensing system from the visualization interface.
 The web dashboard is located at:
 
 ```text
-code/Web_Dashboard/index.html
+index.html
 ```
 ![Smart Classroom Dashboard](Smart_Classroom_Monitoring/images/screenshots/web_dashboard/dashboard_classic_theme.png)
 The dashboard provides a visual representation of the classroom monitoring information.
@@ -797,7 +797,7 @@ The firmware contains the logic for:
 The dashboard source is located at:
 
 ```text
-code/Web_Dashboard/index.html
+index.html
 ```
 
 The single HTML file contains:
@@ -842,7 +842,7 @@ code/ESP32/Smart_classroom_Occupancy.ino
 Open:
 
 ```text
-code/Web_Dashboard/index.html
+index.html
 ```
 
 in a modern web browser.
