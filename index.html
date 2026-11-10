@@ -184,36 +184,92 @@ input[type=range]{width:100%;accent-color:#7040e8;height:7px;cursor:pointer}
 }
 .theme-select:focus{box-shadow:0 0 0 3px rgba(19,137,247,.14)}
 
+/* True dark theme: neutral near-black surfaces with colored accents */
 body.theme-dark{
-  --bg:#0b1425; --navy:#eaf3ff; --muted:#9db4d4; --white:#101c31;
-  --border:#253957;
-  background:linear-gradient(135deg,#091222,#0e1b30,#111f35);
-  color:#eaf3ff;
+  --bg:#050506; --navy:#f2f3f5; --muted:#9a9ea8; --white:#111113;
+  --border:#26272b;
+  background:#050506;
+  color:#f2f3f5;
+  color-scheme:dark;
 }
 body.theme-dark .topbar,
 body.theme-dark .card{
-  background:rgba(16,28,49,.94);
-  border-color:#263b59;
-  box-shadow:0 12px 30px rgba(0,0,0,.22);
+  background:#111113;
+  border-color:#26272b;
+  box-shadow:0 10px 28px rgba(0,0,0,.65);
 }
+body.theme-dark .present{background:#111113;box-shadow:inset 0 3px 0 #1389f7,0 10px 28px rgba(0,0,0,.65)}
+body.theme-dark .entered{background:#111113;box-shadow:inset 0 3px 0 #0ab65a,0 10px 28px rgba(0,0,0,.65)}
+body.theme-dark .exited{background:#111113;box-shadow:inset 0 3px 0 #ef2635,0 10px 28px rgba(0,0,0,.65)}
+body.theme-dark .capacity{background:#111113;box-shadow:inset 0 3px 0 #8b6cf0,0 10px 28px rgba(0,0,0,.65)}
+body.theme-dark .update{background:#111113;box-shadow:inset 0 3px 0 #f4a51c,0 10px 28px rgba(0,0,0,.65)}
+
 body.theme-dark .subtitle,
 body.theme-dark .desc,
 body.theme-dark .note,
 body.theme-dark .age,
 body.theme-dark .mini-sub,
 body.theme-dark .direction .dlabel,
-body.theme-dark .cloud-info{color:#a9bed9}
-body.theme-dark .theme-select{background:#14243c;color:#eaf3ff;border-color:#304a6d}
-body.theme-dark .present{background:linear-gradient(145deg,#132a45,#102238)}
-body.theme-dark .entered{background:linear-gradient(145deg,#102e28,#10251f)}
-body.theme-dark .exited{background:linear-gradient(145deg,#321721,#25131b)}
-body.theme-dark .capacity{background:linear-gradient(145deg,#282044,#1d1933)}
-body.theme-dark .update{background:linear-gradient(145deg,#392b16,#2a2113)}
-body.theme-dark .progress{background:#26384f}
-body.theme-dark .ring:after{background:#13243b}
+body.theme-dark .direction .dsub,
+body.theme-dark .ring-label,
+body.theme-dark .range-labels,
+body.theme-dark .cap-note,
+body.theme-dark .footer,
+body.theme-dark .cloud-info{color:#9a9ea8}
+body.theme-dark .live-title{color:#3ddc84}
+body.theme-dark .live-dot{background:#3ddc84;box-shadow:0 0 0 5px rgba(61,220,132,.14)}
+body.theme-dark .topbar{background:#0d0d0f}
+
+body.theme-dark .time{color:#f5b942}
+body.theme-dark .entered .metric,
+body.theme-dark .entered .plus{color:#3ddc84}
+body.theme-dark .exited .metric,
+body.theme-dark .exited .plus{color:#ff6b78}
+body.theme-dark .capacity .capacity-number{color:#b9a3ff}
+body.theme-dark .mini-value{color:#f2f3f5}
+
+body.theme-dark .blue-icon{background:rgba(19,137,247,.22)}
+body.theme-dark .purple-icon{background:rgba(139,108,240,.24)}
+body.theme-dark .gold-icon{background:rgba(244,165,28,.22)}
+
+body.theme-dark .ring{background:conic-gradient(var(--blue) var(--pct,0%),#26272b 0)}
+body.theme-dark .ring:after{background:#111113}
+body.theme-dark .progress{background:#26272b}
+body.theme-dark .status{background:rgba(10,182,90,.16);color:#4ae38f}
+body.theme-dark .status.over-capacity{background:rgba(239,38,53,.18) !important;color:#ff7a85 !important}
+body.theme-dark .status-dot{background:#3ddc84}
+
 body.theme-dark .metric-box,
 body.theme-dark .direction,
-body.theme-dark .mini{background:rgba(255,255,255,.035)}
+body.theme-dark .mini{background:#18181b;border-color:#2a2b30}
+body.theme-dark .entered .metric-box,
+body.theme-dark .entered .direction,
+body.theme-dark .mini{border-color:rgba(10,182,90,.32)}
+body.theme-dark .exited .metric-box,
+body.theme-dark .exited .direction,
+body.theme-dark .mini.red{border-color:rgba(239,38,53,.34)}
+
+body.theme-dark .theme-select{background:#18181b;color:#f2f3f5;border-color:#2f3036}
+body.theme-dark .signout{border-color:#2f3036;color:#d6d9e0}
+body.theme-dark .role-pill{background:rgba(19,137,247,.18);color:#6db6ff}
+body.theme-dark .error{background:#2a1214;border-color:#5c2227;color:#ff9ba3}
+
+/* Dark: over-capacity popup */
+body.theme-dark .capacity-alert-overlay{background:rgba(0,0,0,.78)}
+body.theme-dark .capacity-alert{background:#141416;box-shadow:0 28px 80px rgba(0,0,0,.8)}
+body.theme-dark .capacity-alert .alert-icon{background:rgba(217,4,41,.2);color:#ff5468}
+body.theme-dark .capacity-alert h2{color:#ff7a85}
+body.theme-dark .capacity-alert p{color:#b4b8c2}
+body.theme-dark .capacity-alert .alert-number{color:#fff}
+
+/* Dark: login screen */
+body.theme-dark .login-overlay{background:#050506}
+body.theme-dark .login-box{background:#111113;border-color:#26272b;color:#f2f3f5;box-shadow:0 18px 44px rgba(0,0,0,.7)}
+body.theme-dark .login-box .sub,
+body.theme-dark .login-hint{color:#9a9ea8}
+body.theme-dark .login-field label{color:#d0d3da}
+body.theme-dark .login-field input{background:#0a0a0b;border-color:#2f3036;color:#f2f3f5}
+body.theme-dark .login-error{color:#ff8a93}
 
 body.theme-ocean{
   --navy:#063a55; --border:#c6e5ef;
@@ -269,9 +325,68 @@ body.theme-neon .ring:after{background:#0b1b29}
   .theme-control{width:100%;justify-content:flex-end}
 }
 
+
+/* ---------- Login and roles ---------- */
+body.locked > *:not(#loginOverlay){visibility:hidden}
+.login-overlay{
+  position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;
+  padding:20px;background:linear-gradient(135deg,#f5f9ff 0%,#e6eefa 100%);
+}
+.login-overlay.hidden{display:none}
+.login-box{
+  width:100%;max-width:390px;background:#fff;border:1px solid #d9e6f5;border-radius:25px;
+  padding:30px 28px;box-shadow:0 18px 44px rgba(35,72,116,.14);color:#08285a;
+}
+.login-box h2{margin:0 0 4px;font-size:24px;font-weight:800}
+.login-box .sub{margin:0 0 22px;color:#55729b;font-size:14px}
+.login-field{display:flex;flex-direction:column;gap:6px;margin-bottom:15px}
+.login-field label{font-size:13px;font-weight:600;color:#214573}
+.login-field input{
+  border:1px solid #cfdcec;border-radius:12px;padding:12px 13px;font-size:15px;
+  background:#f8fbff;color:#08285a;font-family:inherit
+}
+.login-field input:focus{outline:2px solid #1389f7;outline-offset:1px;border-color:#1389f7}
+.login-btn{
+  width:100%;border:0;border-radius:14px;padding:13px;font-size:15px;font-weight:700;color:#fff;
+  background:linear-gradient(145deg,#2e91f6,#2377e8);cursor:pointer;
+  box-shadow:0 7px 16px rgba(27,117,235,.25);font-family:inherit
+}
+.login-btn:hover{filter:brightness(1.05)}
+.login-error{color:#c4202e;font-size:13px;min-height:18px;margin:12px 0 0}
+.login-hint{color:#55729b;font-size:12.5px;margin:12px 0 0;line-height:1.5}
+.role-pill{
+  font-size:13px;font-weight:700;color:#1389f7;background:rgba(19,137,247,.12);
+  border-radius:999px;padding:7px 13px;white-space:nowrap
+}
+.signout{
+  border:1px solid #cfdcec;background:transparent;color:inherit;border-radius:12px;
+  padding:9px 13px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit
+}
+.signout:hover{border-color:#1389f7;color:#1389f7}
+.cloud-info{flex-wrap:wrap;justify-content:flex-end}
+.cap-note{margin-top:12px;font-size:13px;color:#55729b;min-height:18px}
+.range-wrap.locked input[type=range]{opacity:.45;cursor:not-allowed}
 </style>
 </head>
-<body>
+<body class="locked">
+
+<div class="login-overlay" id="loginOverlay">
+  <form class="login-box" id="loginForm" autocomplete="off">
+    <h2>Sign in</h2>
+    <p class="sub">Smart Classroom Monitoring System</p>
+    <div class="login-field">
+      <label for="loginUser">Username</label>
+      <input type="text" id="loginUser" required autocapitalize="none" spellcheck="false">
+    </div>
+    <div class="login-field">
+      <label for="loginPass">Password</label>
+      <input type="password" id="loginPass" required>
+    </div>
+    <button type="submit" class="login-btn">Sign in</button>
+    <p class="login-error" id="loginError" role="alert"></p>
+    <p class="login-hint">Admin can view the dashboard and set the classroom capacity. Display accounts can only view it.</p>
+  </form>
+</div>
 
 <div id="capacityAlertOverlay" class="capacity-alert-overlay" role="alertdialog" aria-modal="true" aria-labelledby="capacityAlertTitle">
   <div class="capacity-alert">
@@ -296,6 +411,7 @@ body.theme-neon .ring:after{background:#0b1b29}
   <div class="cloud-info">
     <span class="cloud-icon">☁</span>
     <span>Auto refresh: 15s · Channel <b>3491159</b> · Fields 1, 2, 3</span>
+    <span class="role-pill" id="rolePill">—</span>
     <div class="theme-control">
       <select id="themeSelect" class="theme-select" title="Choose dashboard theme" aria-label="Choose dashboard theme">
         <option value="default">☀️ Classic</option>
@@ -306,6 +422,7 @@ body.theme-neon .ring:after{background:#0b1b29}
       </select>
     </div>
     <button class="refresh" id="refresh" title="Refresh now">↻</button>
+    <button class="signout" id="signoutBtn" type="button">Sign out</button>
   </div>
 </header>
 
@@ -403,6 +520,7 @@ body.theme-neon .ring:after{background:#0b1b29}
         <input id="capacity" type="range" min="10" max="200" value="64">
         <div class="range-labels"><span>10</span><span>200</span></div>
       </div>
+      <div class="cap-note" id="capNote"></div>
     </article>
 
     <article class="card update">
@@ -641,6 +759,67 @@ setInterval(() => {
   }, 250);
 
   window.addEventListener("load", check);
+})();
+</script>
+
+<script id="auth-script">
+(function(){
+  // Passwords are stored as SHA-256 hashes, not plain text.
+  // Default logins:  admin / Admin@123   and   display / Display@123
+  const USERS = {
+    admin:   { hash: "e86f78a8a3caf0b60d8e74e5942aa6d86dc150cd3c03338aef25b7d2d7e3acc7", role: "admin" },
+    display: { hash: "d1046ad66c9977d4add6c77d0856d3df89de841a6cba62852d5653ba58ba3389", role: "display" }
+  };
+  const ROLE_KEY = "smartClassroomRole";
+  const $ = id => document.getElementById(id);
+
+  async function sha256(text){
+    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,"0")).join("");
+  }
+
+  function applyRole(role){
+    const isAdmin = role === "admin";
+    $("rolePill").textContent = isAdmin ? "Admin" : "Display";
+    $("capacity").disabled = !isAdmin;
+    document.querySelector(".range-wrap").classList.toggle("locked", !isAdmin);
+    $("capNote").textContent = isAdmin
+      ? "Admin: drag the slider to set the classroom capacity."
+      : "View only. Sign in as admin to change the capacity.";
+    $("loginOverlay").classList.add("hidden");
+    document.body.classList.remove("locked");
+  }
+
+  $("loginForm").addEventListener("submit", async function(e){
+    e.preventDefault();
+    $("loginError").textContent = "";
+    const name = $("loginUser").value.trim().toLowerCase();
+    const account = Object.prototype.hasOwnProperty.call(USERS, name) ? USERS[name] : null;
+    let ok = false;
+    try{
+      ok = !!account && (await sha256($("loginPass").value)) === account.hash;
+    }catch(err){
+      $("loginError").textContent = "Sign in needs a secure page. Use the https GitHub Pages link.";
+      return;
+    }
+    if(!ok){
+      $("loginError").textContent = "Incorrect username or password.";
+      $("loginPass").value = "";
+      return;
+    }
+    try{ sessionStorage.setItem(ROLE_KEY, account.role); }catch(err){}
+    $("loginPass").value = "";
+    applyRole(account.role);
+  });
+
+  $("signoutBtn").addEventListener("click", function(){
+    try{ sessionStorage.removeItem(ROLE_KEY); }catch(err){}
+    location.reload();
+  });
+
+  let saved = null;
+  try{ saved = sessionStorage.getItem(ROLE_KEY); }catch(err){}
+  if(saved === "admin" || saved === "display") applyRole(saved);
 })();
 </script>
 
