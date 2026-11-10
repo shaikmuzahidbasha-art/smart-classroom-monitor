@@ -13,9 +13,14 @@ A smart classroom occupancy monitoring system using an ESP32, two IR sensors, Th
 
 👉 **[Open Live Dashboard](https://shaikmuzahidbasha-art.github.io/smart-classroom-monitor/)**
 
-The dashboard asks for a login. Credentials are shared with the project guide and team, not published here.
+The dashboard asks for a login:
 
-![Smart Classroom Dashboard](images/screenshots/web_dashboard/dashboard_classic_theme.png)
+| Role | Username | Password |
+|---|---|---|
+| Admin | `admin` | `Admin@123` |
+| Display | `display` | `Display@123` |
+
+![Smart Classroom Dashboard](Smart_Classroom_Monitoring/images/screenshots/web_dashboard/dashboard_classic_theme.png)
 
 ---
 
@@ -69,7 +74,7 @@ IR2 Sensor ─┘                                              │
 | IR Sensor 2 | GPIO 18 |
 | Clear Button | GPIO 23 (to GND, `INPUT_PULLUP`) |
 
-![Hardware Setup](images/hardware/hardware_setup_top.png)
+![Hardware Setup](Smart_Classroom_Monitoring/images/hardware/hardware_setup_top.png)
 
 ---
 
@@ -104,7 +109,7 @@ ESP32 NVS holds the live counter state. ThingSpeak keeps the uploaded history. T
 
 A successful upload prints `ThingSpeak Update Successful` on the Serial Monitor.
 
-![ThingSpeak Cloud](images/screenshots/thingspeak_cloud/thingspeak_channel.png)
+![ThingSpeak Cloud](Smart_Classroom_Monitoring/images/screenshots/thingspeak_cloud/thingspeak_channel.png)
 
 ---
 
@@ -184,19 +189,19 @@ Total Exited   : 8
 ```text
 smart-classroom-monitor/
 │
-├── index.html                  (web dashboard, served by GitHub Pages)
-│
-├── code/
-│   └── ESP32/
-│       └── Smart_classroom_Occupancy.ino
-│
-├── images/
-│   ├── hardware/
-│   └── screenshots/
-│       ├── serial_monitor/
-│       ├── thingspeak_cloud/
-│       └── web_dashboard/
-│
+├── index.html                      (live dashboard, served by GitHub Pages)
+├── Smart_Classroom_Monitoring/
+│   ├── code/
+│   │   ├── ESP32/
+│   │   │   └── Smart_classroom_Occupancy.ino
+│   │   └── Web_Dashboard/
+│   │       └── index.html
+│   └── images/
+│       ├── hardware/
+│       └── screenshots/
+│           ├── serial_monitor/
+│           ├── thingspeak_cloud/
+│           └── web_dashboard/
 ├── .gitignore
 └── README.md
 ```
@@ -207,7 +212,7 @@ smart-classroom-monitor/
 
 ### ESP32
 1. Install Arduino IDE and the ESP32 board support package.
-2. Open `code/ESP32/Smart_classroom_Occupancy.ino`.
+2. Open `Smart_Classroom_Monitoring/code/ESP32/Smart_classroom_Occupancy.ino`.
 3. Select the ESP32 board and COM port.
 4. Enter your own Wi-Fi and ThingSpeak details locally (see Security below).
 5. Upload, open the Serial Monitor at **115200** baud, and test an entry and an exit.
@@ -232,6 +237,8 @@ Use placeholders in the shared code:
 const char* ssid = "YOUR_WIFI_NAME";
 const char* password = "YOUR_WIFI_PASSWORD";
 ```
+
+The dashboard login accounts above are demo accounts for this academic project.
 
 ---
 
